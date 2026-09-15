@@ -45,7 +45,7 @@ class ReasignarTareaControllerTest {
     @Test
     void patchAssignee_existente_devuelve200ConAssignee() throws Exception {
         org.mockito.Mockito.doReturn(Optional.of(new Task(4L, "T04", "d", TaskStatus.TODO, null, 1L, null, null))).when(taskService).buscarPorId(4L);
-        org.mockito.Mockito.doReturn(new Task(4L, "T04", "d", TaskStatus.TODO, null, 1L, 2L, null)).when(taskService).reasignar(any(Task.class), any(Long.class));
+        org.mockito.Mockito.doReturn(new Task(4L, "T04", "d", TaskStatus.TODO, null, 1L, 2L, null)).when(taskService).reasignar(any(Task.class), org.mockito.ArgumentMatchers.eq(2L));
 
         mockMvc.perform(patch("/tasks/4/assignee").contentType("application/json").content("{\"assigneeId\":2}"))
                 .andExpect(status().isOk())
