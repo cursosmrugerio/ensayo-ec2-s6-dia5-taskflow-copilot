@@ -122,4 +122,16 @@ public class TaskService {
                 .filter(t -> t.getPriority() == priority)
                 .toList();
     }
+
+    /**
+     * Reasigna solo el responsable de la tarea. Recibe la entidad ya encontrada (controller
+     * resuelve el 404). Si la tarea está en DONE lanza TaskStateException (traducido a 422).
+     */
+    public Task reasignar(Task tarea, Long assigneeId) {
+        if (tarea.getStatus() == TaskStatus.DONE) {
+            throw new TaskStateException("No se puede reasignar una tarea terminada.");
+        }
+        tarea.setAssigneeId(assigneeId);
+        return repository.save(tarea);
+    }
 }
