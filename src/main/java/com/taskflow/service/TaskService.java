@@ -95,6 +95,18 @@ public class TaskService {
     }
 
     /**
+     * Reasigna el responsable de una tarea. Lanza TaskStateException si la tarea ya está terminada.
+     * Reutiliza la regla de dominio en Task (NO reescribe reglas de negocio aquí).
+     */
+    public Task reasignar(Task tarea, Long assigneeId) {
+        if (tarea.getStatus() == TaskStatus.DONE) {
+            throw new TaskStateException("No se puede reasignar una tarea terminada.");
+        }
+        tarea.setAssigneeId(assigneeId);
+        return repository.save(tarea);
+    }
+
+    /**
      * Lista todas las tareas ordenadas con la estrategia POR_URGENCIA (reuso LITERAL de la Strategy de
      * S1): vencidas primero, luego prioridad HIGH->LOW, luego fecha ascendente (nulls al final).
      */

@@ -189,6 +189,7 @@ try {
 
         $r = Pedir '/projects/1/summary'
         Informar 'GET /projects/1/summary sin token responde 401' "HTTP $($r.Codigo)" 'HTTP 401'
+        . (Join-Path $PSScriptRoot 'casos-assignee.ps1')
     }
 }
 catch {
